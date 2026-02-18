@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1 class="text-center my-4">Student Performance Analysis</h1>
+
+  <!-- Student count and subject count -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5>Total Students</h5>
+          <p class="display-6">{{ student_count }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5>Subjects Analyzed</h5>
+          <p class="display-6">{{ subject_count }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Prediction message -->
+  {% if predicted_msg %}
+    <div class="alert alert-primary mb-4">
+      {{ predicted_msg }}
+    </div>
+  {% endif %}
+
+  <!-- Stats table -->
+  <h3 class="mt-5">Subject Statistics</h3>
+  {{ tables.stats | safe }}
+
+  <!-- Ranked students table -->
+  <h3 class="mt-5">Student Rankings</h3>
+  {{ tables.ranked | safe }}
+
+  <!-- At-risk students -->
+  {% if tables.at_risk %}
+    <h3 class="mt-5">Students At Risk (Average < {{ threshold }}%)</h3>
+    {{ tables.at_risk | safe }}
+  {% endif %}
+
+  <!-- Charts -->
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <h3>Average Scores per Subject</h3>
+      <img src="data:image/png;base64,{{ subject_plot }}" class="img-fluid" alt="Subject averages">
+    </div>
+    <div class="col-md-6">
+      <h3>Top Students</h3>
+      <img src="data:image/png;base64,{{ student_plot }}" class="img-fluid" alt="Top students">
+    </div>
+  </div>
+
+  <!--  ←←← PUT THE TIPS BLOCK HERE  -->
+  {% if tips %}
+    <h3 class="mt-4">Recommendations</h3>
+    {% for name, tip in tips.items() %}
+      <div class="alert alert-info">
+        <strong>{{ name }}</strong>: {{ tip }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+{% endblock %}

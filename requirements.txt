@@ -1,0 +1,8 @@
+flask
+flask-login
+pandas
+matplotlib
+scikit-learn
+transformers
+reportlab
+torch  # for transformers
